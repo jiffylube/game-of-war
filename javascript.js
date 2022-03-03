@@ -6,14 +6,11 @@ class Card {
   }
 }
 
-// let player1 = []
-// let player2 = []
-
-
 class Player{
   constructor(name, hand) {
     this.name = name
     this.hand = hand
+    this.cardToPlay = []
   }
 }
 
@@ -26,7 +23,7 @@ class Deck {
   createDeck() {
     let suit = ["Spades", "Hearts", "Clubs", "Diamonds"]
     let rank = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"]
-    let score = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13"]
+    let score = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
 
     for (let i = 0; i < suit.length; i++) {
       for (let j = 0; j < rank.length; j++) {
@@ -52,21 +49,43 @@ class Deck {
       this.handTwo.push(this.cards[i])
      }
   }
+}
 
-  }
-
-
+class War {
+  constructor() {
+    this.theTwo = []
+    }
+  firstCard() {
+    player1.cardToPlay.unshift(player1.hand[0])
+    player1.hand.shift();
+    player2.cardToPlay.unshift(player2.hand[0])
+    player2.hand.shift();
+    }
+    compare() {
+      if (player1.cardToPlay[0].score === player2.cardToPlay[0].score) {
+        console.log("it's a tie")
+      }
+      if (player1.cardToPlay[0].score < player2.cardToPlay[0].score) {
+        console.log("player 2 wins")
+      }
+      if (player1.cardToPlay[0].score > player2.cardToPlay[0].score) {
+        console.log("player 1 wins")
+      }
+    }
+}
 
 
 let newDeck = new Deck();
-const Lawrence = new Player("Lawrence", newDeck.handOne)
-const Jeff = new Player("Jeffrey", newDeck.handTwo)
+const player1 = new Player("Lawrence", newDeck.handOne)
+const player2 = new Player("Jeffrey", newDeck.handTwo)
+let playWar = new War();
+
 
 newDeck.createDeck();
 newDeck.shuffle();
-console.log(newDeck);
-
-newDeck.deal();
-// console.log(newDeck.handOne)
 // console.log(newDeck);
-console.log(Lawrence, Jeff);
+newDeck.deal();
+// console.log(player1, player2);
+playWar.firstCard();
+console.log(player1, player2);
+playWar.compare();
