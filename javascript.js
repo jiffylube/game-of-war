@@ -69,5 +69,4 @@ console.log(newDeck);
 newDeck.deal();
 // console.log(newDeck.handOne)
 // console.log(newDeck);
-console.log(Lawrence, Jeff)
-
+console.log(Lawrence, Jeff);
