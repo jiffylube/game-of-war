@@ -64,12 +64,24 @@ class War {
     compare() {
       if (player1.cardToPlay[0].score === player2.cardToPlay[0].score) {
         console.log("it's a tie")
+
       }
       if (player1.cardToPlay[0].score < player2.cardToPlay[0].score) {
-        console.log("player 2 wins")
+        console.log("player 2 wins");
+        
+        
+        // this.firstCard();
+        // player2.push(this.theTwo);
       }
       if (player1.cardToPlay[0].score > player2.cardToPlay[0].score) {
         console.log("player 1 wins")
+        
+
+
+        // this.theTwo = player1.cardToPlay.concat(player2.cardToPlay);
+
+        // this.firstCard();
+        // player1.push(this.theTwo);
       }
     }
 }
@@ -89,3 +101,6 @@ newDeck.deal();
 playWar.firstCard();
 console.log(player1, player2);
 playWar.compare();
+console.log(playWar.theTwo);
+
+// console.log(player1, player2);
