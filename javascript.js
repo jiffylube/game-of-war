@@ -53,37 +53,53 @@ class Deck {
 
 class War {
   constructor() {
-    this.theTwo = []
-    }
-  firstCard() {
+    this.pot = ["this is the pot"]
+  
+  }
+  playCards() {
+    if (player1.hand.length > 1) {
     player1.cardToPlay.unshift(player1.hand[0])
-    player1.hand.shift();
-    player2.cardToPlay.unshift(player2.hand[0])
+      player1.hand.shift();
+    }
+    if (player2.hand.length > 1){
+      player2.cardToPlay.unshift(player2.hand[0])
     player2.hand.shift();
     }
-    compare() {
+  }
+  compare() {
       if (player1.cardToPlay[0].score === player2.cardToPlay[0].score) {
         console.log("it's a tie")
 
       }
       if (player1.cardToPlay[0].score < player2.cardToPlay[0].score) {
         console.log("player 2 wins");
-        
+        playWar.pot.push(player1.cardToPlay[0]);
+        playWar.pot.push(player2.cardToPlay[0]);
+        // player2.hand.push(...playWar.pot);
+        // playWar.pot.shift(player1.cardToPlay[0])
+        // player1.cardToPlay.shift()
         
         // this.firstCard();
         // player2.push(this.theTwo);
       }
       if (player1.cardToPlay[0].score > player2.cardToPlay[0].score) {
         console.log("player 1 wins")
+        playWar.pot.push(player1.cardToPlay[0]);
+        playWar.pot.push(player2.cardToPlay[0]);
+        // player1.hand.push(...playWar.pot);
+        // this.theTwo.unshift(player1.cardToPlay[0])
+        // player1.cardToPlay.shift();
+        // this.theTwo.unshift(player2.cardToPlay[0])
+        // player2.cardToPlay.shift();
+        // player1.hand.push(this.theTwo)
         
-
 
         // this.theTwo = player1.cardToPlay.concat(player2.cardToPlay);
 
         // this.firstCard();
         // player1.push(this.theTwo);
       }
-    }
+  }
 }
 
 
@@ -98,9 +114,10 @@ newDeck.shuffle();
 // console.log(newDeck);
 newDeck.deal();
 // console.log(player1, player2);
-playWar.firstCard();
-console.log(player1, player2);
+playWar.playCards();
+playWar.playCards();
 playWar.compare();
-console.log(playWar.theTwo);
+console.log(player1.hand.length, player1.cardToPlay, player2.hand.length, player2.cardToPlay);
+console.log(playWar.pot);
 
-// console.log(player1, player2);
+
