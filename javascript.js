@@ -1,123 +1,109 @@
 class Card {
   constructor(suit, rank, score) {
-    this.suit = suit
-    this.rank = rank
-    this.score = score
-  }
-}
-
-class Player{
-  constructor(name, hand) {
-    this.name = name
-    this.hand = hand
-    this.cardToPlay = []
+    this.suit = suit;
+    this.rank = rank;
+    this.score = score;
   }
 }
 
 class Deck {
   constructor() {
-    this.cards = []
-    this.handOne = []
-    this.handTwo = []
+    this.cards = [];
+    this.allCards();
+    this.distribute();
   }
-  createDeck() {
-    let suit = ["Spades", "Hearts", "Clubs", "Diamonds"]
-    let rank = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"]
-    let score = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
 
-    for (let i = 0; i < suit.length; i++) {
-      for (let j = 0; j < rank.length; j++) {
-        this.cards.push(new Card(suit[i], rank[j], score[j]));
+  suits = ['Hearts', 'Spades', 'Clubs', 'Diamonds'];
+  ranks = ['Ace', 2, 3, 4, 5, 6, 7, 8, 9, 10, 'Jack', 'Queen', 'King'];
+  scores = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
+
+  allCards() {
+    for (let i = 0; i < this.suits.length; i++) {
+      for (let j = 0; j < this.ranks.length; j++) {
+        this.cards.push(new Card(this.suits[i], this.ranks[j], this.scores[j]));
       }
     }
   }
-  shuffle() {
+
+  distribute() {
     for (let i = this.cards.length - 1; i > 0; i--) {
-      let j = Math.floor(Math.random() * (i + 1));
-      let temp = this.cards[i];
-      this.cards[i] = this.cards[j];
-      this.cards[j] = temp
+      let temp = Math.floor(Math.random() * i);
+      let pHolder = this.cards[i];
+      this.cards[i] = this.cards[temp];
+      this.cards[temp] = pHolder;
     }
-    return this.cards
-  }
-  deal() {
-    for (let i = 0; i < this.cards.length; i+=2) {
-      this.handOne.push(this.cards[i])
-      }
-  
-    for (let i = 1; i < this.cards.length; i+=2) {
-      this.handTwo.push(this.cards[i])
-     }
+    playerOneHand = this.cards.splice(0, this.cards.length / 2);
+    playerTwoHand = this.cards.splice(0, this.cards.length);
+
   }
 }
 
-class War {
-  constructor() {
-    this.pot = ["this is the pot"]
-  
-  }
-  playCards() {
-    if (player1.hand.length > 1) {
-    player1.cardToPlay.unshift(player1.hand[0])
-      player1.hand.shift();
+//Player's Hands
+let playerOneHand;
+let playerTwoHand;
+
+let popo = new Deck;
+
+function war(empPile = []) {
+  let j = 1;
+  while (j > 0) {
+    let x = playerOneHand.length;
+    let y = playerTwoHand.length;
+    if (x < 5) {
+      console.log('Player 1 does not have enough cards. Player 1 loses. A total of ' + n + ' rounds were played.');
+      break;
+    } else if (y < 5) {
+      console.log('Player 2 does not have enough cards. Player 2 loses A total of ' + n + ' rounds were played.');
+      break;
+    } else {
+      warPile = empPile;
+      console.log('Draw. Engage in War');
+      console.log('Player 1 puts down 3 cards and then plays the ' + playerOneHand[4].rank + ' of ' + playerOneHand[4].suit)
+      warPile = warPile.concat(playerOneHand.splice(0, 4));
+      console.log(warPile);
+      console.log('Player 2 puts down 3 cards and then plays the ' + playerTwoHand[4].rank + ' of ' + playerTwoHand[4].suit)
+      warPile = warPile.concat(playerTwoHand.splice(0, 4));
+      console.log(warPile);
+      if (playerOneHand[0].score > playerTwoHand[0].score) {
+        console.log('Player 1 wins round and takes the cards')
+        playerOneHand = playerOneHand.concat(warPile, playerTwoHand.shift(), playerOneHand.shift());
+        j--;
+      } else if (playerOneHand[0].score < playerTwoHand[0].score) {
+        console.log('Player 2 wins round and takes the cards')
+        playerTwoHand = playerTwoHand.concat(warPile, playerOneHand.shift(), playerTwoHand.shift());
+        j--;
+      } else {
+        warPile = warPile.concat(playerOneHand.splice(0, 1), playerTwoHand.splice(0, 1));
+        war(warPile);
+        j--;
+      }
     }
-    if (player2.hand.length > 1){
-      player2.cardToPlay.unshift(player2.hand[0])
-    player2.hand.shift();
-    }
-  }
-  compare() {
-      if (player1.cardToPlay[0].score === player2.cardToPlay[0].score) {
-        console.log("it's a tie")
-
-      }
-      if (player1.cardToPlay[0].score < player2.cardToPlay[0].score) {
-        console.log("player 2 wins");
-        playWar.pot.push(player1.cardToPlay[0]);
-        playWar.pot.push(player2.cardToPlay[0]);
-        // player2.hand.push(...playWar.pot);
-        // playWar.pot.shift(player1.cardToPlay[0])
-        // player1.cardToPlay.shift()
-        
-        // this.firstCard();
-        // player2.push(this.theTwo);
-      }
-      if (player1.cardToPlay[0].score > player2.cardToPlay[0].score) {
-        console.log("player 1 wins")
-        playWar.pot.push(player1.cardToPlay[0]);
-        playWar.pot.push(player2.cardToPlay[0]);
-        // player1.hand.push(...playWar.pot);
-        // this.theTwo.unshift(player1.cardToPlay[0])
-        // player1.cardToPlay.shift();
-        // this.theTwo.unshift(player2.cardToPlay[0])
-        // player2.cardToPlay.shift();
-        // player1.hand.push(this.theTwo)
-        
-
-        // this.theTwo = player1.cardToPlay.concat(player2.cardToPlay);
-
-        // this.firstCard();
-        // player1.push(this.theTwo);
-      }
   }
 }
-
-
-let newDeck = new Deck();
-const player1 = new Player("Lawrence", newDeck.handOne)
-const player2 = new Player("Jeffrey", newDeck.handTwo)
-let playWar = new War();
-
-
-newDeck.createDeck();
-newDeck.shuffle();
-// console.log(newDeck);
-newDeck.deal();
-// console.log(player1, player2);
-playWar.playCards();
-playWar.playCards();
-playWar.compare();
-console.log(player1.hand.length, player1.cardToPlay, player2.hand.length, player2.cardToPlay);
-console.log(playWar.pot);
-
-
+let n = 1;
+while (playerOneHand.length !== 0 || playerOneHand.length !== 0) {
+  console.log('Round ' + n)
+  let x = playerOneHand.length;
+  let y = playerTwoHand.length;
+  if (x < 5) {
+    console.log('Player 1 does not have enough cards. Player 1 loses. A total of ' + n + ' rounds played.');
+    break;
+  } else if (y < 5) {
+    console.log('Player 2 does not have enough cards. Player 2 loses. A total of ' + n + ' rounds played.');
+    break;
+  }
+  console.log('Player 1 has ' + x + ' cards')
+  console.log('Player 2 has ' + y + ' cards')
+  console.log('Player 1 plays ' + playerOneHand[0].rank + ' of ' + playerOneHand[0].suit);
+  console.log('Player 2 plays ' + playerTwoHand[0].rank + ' of ' + playerTwoHand[0].suit)
+  if (playerOneHand[0].score > playerTwoHand[0].score) {
+    console.log('Player 1 wins round and takes the card')
+    playerOneHand.push(playerTwoHand.shift(), playerOneHand.shift());
+  } else if (playerOneHand[0].score < playerTwoHand[0].score) {
+    console.log('Player 2 wins round and takes the card')
+    playerTwoHand.push(playerOneHand.shift(), playerTwoHand.shift());
+  } else {
+    war();
+  }
+  n++;
+}
